@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>맞춤 단백질 섭취량 계산기</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap');
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .fade-in { animation: fadeIn 0.8s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    /* 모바일 테이블 스크롤 */
+    .table-wrapper {
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-900 via-purple-800 to-blue-900 min-h-screen py-6 sm:py-10">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6">
+    <!-- 헤더 -->
+    <div class="text-center mb-8 sm:mb-10 text-white">
+      <h1 class="text-3xl sm:text-4xl font-extrabold mb-3 drop-shadow-lg">🥩 맞춤 단백질 섭취량 계산기</h1>
+      <p class="text-gray-200 text-sm sm:text-base">성별, 나이, 체중, 활동 수준, 목표를 입력해 보세요</p>
+    </div>
+
+    <!-- 입력 카드 -->
+    <div class="glass rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 mb-6 sm:mb-8">
+      <form id="proteinForm" class="space-y-6 sm:space-y-8">
+        <!-- 성별 -->
+        <div>
+          <label class="block text-sm sm:text-base font-semibold text-gray-800 mb-2 sm:mb-3">성별</label>
+          <div class="flex gap-4 sm:gap-6">
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="gender" value="male" class="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600 mr-2" required>
+              <span>남성</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="gender" value="female" class="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600 mr-2" required>
+              <span>여성</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 나이 -->
+        <div>
+          <label for="age" class="block text-sm sm:text-base font-semibold text-gray-800 mb-1 sm:mb-2">나이</label>
+          <input type="number" id="age" name="age" min="1" max="120"
+            class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500"
+            placeholder="예: 35" required>
+        </div>
+
+        <!-- 체중 -->
+        <div>
+          <label for="weight" class="block text-sm sm:text-base font-semibold text-gray-800 mb-1 sm:mb-2">체중 (kg)</label>
+          <input type="number" id="weight" name="weight" min="20" max="300" step="0.1"
+            class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500"
+            placeholder="예: 70" required>
+        </div>
+
+        <!-- 활동 수준 -->
+        <div>
+          <label for="activity" class="block text-sm sm:text-base font-semibold text-gray-800 mb-2 sm:mb-3">활동 수준</label>
+          <select id="activity" name="activity"
+            class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500" required>
+            <option value="">선택하세요</option>
+            <option value="sedentary">💺 좌식생활 (운동 거의 안함)</option>
+            <option value="light">🚶 가벼운활동 (주 1~2회)</option>
+            <option value="moderate">🏃 보통활동 (주 3~5회)</option>
+            <option value="active">🏋️ 활발한활동 (거의 매일)</option>
+            <option value="very_active">🔥 매우활발 (하루 2회/육체노동)</option>
+          </select>
+        </div>
+
+        <!-- 개인 목표 -->
+        <div>
+          <label for="goal" class="block text-sm sm:text-base font-semibold text-gray-800 mb-2 sm:mb-3">개인 목표</label>
+          <select id="goal" name="goal"
+            class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500" required>
+            <option value="">선택하세요</option>
+            <option value="maintain">체중 유지</option>
+            <option value="lose">체중 감량</option>
+            <option value="gain">근육 증가</option>
+          </select>
+        </div>
+
+        <!-- 계산 버튼 -->
+        <button type="submit"
+          class="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 text-white font-semibold py-3 sm:py-4 rounded-lg sm:rounded-xl hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition duration-300 shadow-lg sm:shadow-xl text-sm sm:text-base">
+          🚀 단백질 섭취량 계산하기
+        </button>
+      </form>
+    </div>
+
+    <!-- 결과 카드 -->
+    <div id="result" class="hidden glass rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 fade-in mb-6 sm:mb-8">
+      <div class="text-center">
+        <div class="text-5xl sm:text-6xl mb-4">💪</div>
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-6">결과</h2>
+        <div id="resultContent" class="space-y-6"></div>
+
+        <!-- 출처 고지 -->
+        <div class="mt-6 text-xs sm:text-sm text-gray-500 bg-gray-50 rounded-lg p-3 sm:p-4">
+          ※ 본 계산기는 <strong>2020 한국인 영양소 섭취기준(KDRI, 한국영양학회)</strong> 및 
+          <strong>WHO/FAO 단백질 권장량</strong>을 참고하여 설계되었습니다.  
+          개인별 건강 상태나 질환에 따라 필요량은 달라질 수 있으므로, 
+          구체적인 상담은 <strong>전문가와 상의</strong>하시기 바랍니다.
+        </div>
+
+        <!-- CTA -->
+        <div class="mt-8 sm:mt-10 text-center">
+          <a href="https://your-littly-link" target="_blank"
+            class="inline-block bg-gradient-to-r from-green-500 to-emerald-600 text-white py-2.5 sm:py-3 px-5 sm:px-6 rounded-lg shadow-lg hover:scale-105 transition text-sm sm:text-base">
+            📩 무료 상담 신청하기
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 고정 정보 테이블 -->
+    <div class="glass rounded-2xl sm:rounded-3xl shadow-xl p-6 sm:p-8 fade-in">
+      <!-- 식품 단백질 함량 -->
+      <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4">🍽️ 식품별 단백질 함량 예시</h3>
+      <div class="table-wrapper">
+        <table class="min-w-full border border-gray-200 text-xs sm:text-sm mb-6">
+          <thead class="bg-gray-100 text-gray-700">
+            <tr>
+              <th class="p-2 border">식품</th>
+              <th class="p-2 border">섭취량</th>
+              <th class="p-2 border">단백질 (g)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="p-2 border">🥩 닭가슴살</td><td class="p-2 border">200g</td><td class="p-2 border">62g</td></tr>
+            <tr><td class="p-2 border">🥚 달걀</td><td class="p-2 border">2개</td><td class="p-2 border">12g</td></tr>
+            <tr><td class="p-2 border">🍲 두부</td><td class="p-2 border">300g</td><td class="p-2 border">24g</td></tr>
+            <tr><td class="p-2 border">🥛 그릭요거트</td><td class="p-2 border">1컵</td><td class="p-2 border">20g</td></tr>
+            <tr><td class="p-2 border">🥦 브로콜리</td><td class="p-2 border">150g</td><td class="p-2 border">5g</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 체중당 권장량 -->
+      <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4">📊 체중당 단백질 섭취 권장 기준</h3>
+      <div class="table-wrapper">
+        <table class="min-w-full border border-gray-200 text-xs sm:text-sm mb-3 sm:mb-4">
+          <thead class="bg-gray-100 text-gray-700">
+            <tr>
+              <th class="p-2 border">목적</th>
+              <th class="p-2 border">단백질 권장량 (g/kg 체중/일)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="p-2 border">일반 성인</td><td class="p-2 border">1.0 ~ 1.2</td></tr>
+            <tr><td class="p-2 border">근육 형성·유지</td><td class="p-2 border">1.6 ~ 2.2</td></tr>
+            <tr><td class="p-2 border">체지방 감량 중 근육 보존</td><td class="p-2 border">2.3 ~ 3.3</td></tr>
+            <tr><td class="p-2 border">노인·회복기</td><td class="p-2 border">상위 권장량 적용 필요</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 고지문 (하단 고정) -->
+      <div class="mt-3 sm:mt-4 text-[10px] sm:text-xs text-gray-500">
+        출처: 한국영양학회(KDRI, 2020), WHO/FAO 단백질 권장량 가이드라인
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('proteinForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+      const age = parseInt(document.getElementById("age").value);
+      const weight = parseFloat(document.getElementById("weight").value);
+      const activity = document.getElementById("activity").value;
+      const goal = document.getElementById("goal").value;
+
+      // 기본 계수
+      let coeff = 0.91;
+
+      // 활동 보정
+      const activityMultiplier = {
+        sedentary: 1.0,
+        light: 1.2,
+        moderate: 1.4,
+        active: 1.6,
+        very_active: 1.8
+      };
+      coeff *= activityMultiplier[activity];
+
+      // 목표 보정
+      if (goal === "lose") coeff += 0.2;
+      if (goal === "gain") coeff += 0.4;
+
+      // 노년 보정
+      if (age >= 65 && coeff < 1.2) coeff = 1.2;
+
+      let protein = weight * coeff;
+      let minProtein = protein * 0.9;
+      let maxProtein = protein * 1.1;
+
+      // 결과 표시
+      const resultDiv = document.getElementById("result");
+      const resultContent = document.getElementById("resultContent");
+
+      resultContent.innerHTML = `
+        <div class="bg-gradient-to-r from-indigo-100 to-purple-100 rounded-xl p-4 sm:p-6">
+          <div class="text-3xl sm:text-4xl font-bold text-indigo-700 mb-2">${protein.toFixed(1)} g</div>
+          <p class="text-gray-700 text-sm sm:text-base">당신의 하루 권장 단백질 섭취량</p>
+        </div>
+        <div class="grid grid-cols-2 gap-4 sm:gap-6">
+          <div class="bg-green-50 rounded-lg p-3 sm:p-4 shadow">
+            <div class="text-sm sm:text-lg font-semibold text-green-700">최소</div>
+            <div class="text-xl sm:text-2xl font-bold text-green-600">${minProtein.toFixed(1)} g</div>
+          </div>
+          <div class="bg-orange-50 rounded-lg p-3 sm:p-4 shadow">
+            <div class="text-sm sm:text-lg font-semibold text-orange-700">최대</div>
+            <div class="text-xl sm:text-2xl font-bold text-orange-600">${maxProtein.toFixed(1)} g</div>
+          </div>
+        </div>
+        <p class="text-xs sm:text-sm text-gray-600">입력값: ${age}세 · ${weight}kg · 목표: ${goal} · 활동: ${document.querySelector('#activity option:checked').textContent}</p>
+      `;
+      resultDiv.classList.remove("hidden");
+      resultDiv.scrollIntoView({ behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
