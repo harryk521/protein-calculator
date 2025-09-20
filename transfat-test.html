@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>트랜스지방 자가테스트</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap');
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .fade-in { animation: fadeIn 0.8s ease-in-out; }
+    @keyframes fadeIn { from {opacity:0;transform:translateY(10px);} to {opacity:1;transform:translateY(0);} }
+    .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-pink-100 via-red-100 to-yellow-100 min-h-screen py-6 sm:py-10">
+
+  <div class="max-w-3xl mx-auto px-4 sm:px-6">
+    <!-- 헤더 -->
+    <div class="text-center mb-8 sm:mb-10">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-red-700 mb-3">내 혈관건강은? 🩸</h1>
+      <p class="text-gray-700 text-sm sm:text-base">트랜스지방 섭취 습관을 확인해 보세요</p>
+    </div>
+
+    <!-- 테스트 카드 -->
+    <div class="glass rounded-2xl shadow-2xl p-6 sm:p-10 mb-6 sm:mb-8">
+      <form id="testForm" class="space-y-6">
+        <!-- 질문 반복 -->
+        <div>
+          <p class="font-semibold text-gray-800 mb-2">Q1. 아침식사로 제과·제빵류(도넛, 크림빵)를 자주 먹는다.</p>
+          <label class="mr-4"><input type="radio" name="q1" value="1" required> 네</label>
+          <label><input type="radio" name="q1" value="0"> 아니오</label>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-800 mb-2">Q2. 주 2회 이상 패스트푸드(치킨, 버거, 감자튀김)를 먹는다.</p>
+          <label class="mr-4"><input type="radio" name="q2" value="1" required> 네</label>
+          <label><input type="radio" name="q2" value="0"> 아니오</label>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-800 mb-2">Q3. 집에서 튀김할 때 같은 기름을 여러 번 재사용한다.</p>
+          <label class="mr-4"><input type="radio" name="q3" value="1" required> 네</label>
+          <label><input type="radio" name="q3" value="0"> 아니오</label>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-800 mb-2">Q4. 간식으로 크래커·과자·냉동 피자를 자주 먹는다.</p>
+          <label class="mr-4"><input type="radio" name="q4" value="1" required> 네</label>
+          <label><input type="radio" name="q4" value="0"> 아니오</label>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-800 mb-2">Q5. 식품 구입 시 ‘부분경화유’ 표시를 거의 확인하지 않는다.</p>
+          <label class="mr-4"><input type="radio" name="q5" value="1" required> 네</label>
+          <label><input type="radio" name="q5" value="0"> 아니오</label>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-800 mb-2">Q6. 가족 중 심혈관질환 병력이 있다 / 최근 검진에서 LDL↑, HDL↓ 지적을 받았다.</p>
+          <label class="mr-4"><input type="radio" name="q6" value="1" required> 네</label>
+          <label><input type="radio" name="q6" value="0"> 아니오</label>
+        </div>
+
+        <!-- 버튼 -->
+        <button type="submit"
+          class="w-full bg-gradient-to-r from-red-500 to-pink-600 text-white font-semibold py-3 rounded-lg hover:from-red-600 hover:to-pink-700 transform hover:scale-105 transition">
+          결과 확인하기 🚀
+        </button>
+      </form>
+    </div>
+
+    <!-- 결과 -->
+    <div id="result" class="hidden glass rounded-2xl shadow-2xl p-6 sm:p-10 fade-in">
+      <div class="text-center">
+        <h2 class="text-2xl font-bold text-red-700 mb-4">트랜스지방 자가테스트 결과</h2>
+        <div id="resultContent" class="space-y-4"></div>
+
+        <!-- 실천 가이드 -->
+        <div class="mt-6 text-left bg-gray-50 p-4 rounded-lg">
+          <h3 class="font-semibold text-gray-800 mb-2">실천 가이드 (함께 해보세요!)</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+            <li>✅ 가공식품 라벨 확인: ‘부분경화유’ 포함 여부 체크</li>
+            <li>✅ 튀김 기름 재사용 줄이기</li>
+            <li>✅ 패스트푸드 → 가정식·건강식 대체</li>
+            <li>✅ 오메가-3 풍부한 식품(등푸른 생선, 견과류) 매일 섭취</li>
+          </ul>
+        </div>
+
+        <!-- CTA -->
+        <div class="mt-8 text-center">
+          <a href="https://litt.ly/mycoach_consult" target="_blank"
+            class="inline-block bg-gradient-to-r from-green-500 to-emerald-600 text-white py-2.5 px-5 rounded-lg shadow-lg hover:scale-105 transition">
+            📩 무료 상담 신청하기
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("testForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      let score = 0;
+      for (let i = 1; i <= 6; i++) {
+        score += parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);
+      }
+
+      let resultText = "";
+      if (score <= 2) {
+        resultText = `
+          <div class="text-green-700 font-bold text-lg">✅ ${score}점: 안전군</div>
+          <p class="text-gray-700">비교적 안전한 상태예요 👍<br>라벨 확인 습관을 꾸준히 유지하세요.</p>
+        `;
+      } else if (score <= 4) {
+        resultText = `
+          <div class="text-orange-700 font-bold text-lg">⚠️ ${score}점: 주의군</div>
+          <p class="text-gray-700">트랜스지방 노출이 잦은 편입니다 ⚠️<br>패스트푸드, 제과류 섭취를 줄이고 대체 식품을 선택하세요.</p>
+        `;
+      } else {
+        resultText = `
+          <div class="text-red-700 font-bold text-lg">🚨 ${score}점: 고위험군</div>
+          <p class="text-gray-700">트랜스지방 노출이 매우 높은 상태 🚨<br>즉시 식습관 교정과 전문가 상담이 필요합니다.</p>
+        `;
+      }
+
+      document.getElementById("resultContent").innerHTML = resultText;
+      document.getElementById("result").classList.remove("hidden");
+      document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+    });
+  </script>
+
+</body>
+</html>
